@@ -2,9 +2,10 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Grid from "@mui/material/Grid";
 
-import { Post } from "../components/Post/Post";
+// import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
+
 const Home = () => {
   return (
     <>
@@ -17,9 +18,10 @@ const Home = () => {
         <Tab label="Популярні" />
       </Tabs>
       <Grid container spacing={4}>
-        <Grid xs={8} item>
-          {[...Array(5)].map(() => (
+        {/* <Grid xs={8} item>
+          {[...Array(5)].map((id) => (
             <Post
+              key={id}
               id={1}
               title="Roast the code #1 | Rock Paper Scissors"
               imageUrl="https://res.cloudinary.com/practicaldev/image/fetch/s--UnAfrEG8--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
@@ -35,7 +37,7 @@ const Home = () => {
               isEditable
             />
           ))}
-        </Grid>
+        </Grid> */}
         <Grid xs={4} item>
           <TagsBlock
             items={["react", "typescript", "нотатки"]}
