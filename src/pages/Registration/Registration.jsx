@@ -16,7 +16,7 @@ const Registration = () => {
         <Avatar sx={{ width: 100, height: 100 }} />
       </div>
       <TextField className={styles.field} label="Full name" fullWidth />
-      <TextField className={styles.field} label="Eail" fullWidth />
+      <TextField className={styles.field} label="Email" fullWidth />
       <TextField className={styles.field} label="Password" fullWidth />
       <Button size="large" variant="contained" fullWidth>
         Register
