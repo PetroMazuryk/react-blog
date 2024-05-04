@@ -10,11 +10,31 @@
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
   color: #213547;
   background-color: #ffffff;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+}
+
+h1,
+p {
+  margin: 0;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+button {
+  border: none;
 }
