@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <Header />
-      <div>Good day</div>
+
       <h1> React Blog</h1>
     </>
   );

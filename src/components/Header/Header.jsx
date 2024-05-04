@@ -1,3 +1,6 @@
+import Container from "@mui/material/Container";
+import FeedIcon from "@mui/icons-material/Feed";
+import Button from "@mui/material/Button";
 import styles from "./Header.module.scss";
 
 export const Header = () => {
@@ -7,30 +10,39 @@ export const Header = () => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.inner}>
-        <a className={styles.logo} href="/">
-          <div>MPS BLOG</div>
-        </a>
-        <div className={styles.buttons}>
-          {isAuth ? (
-            <>
-              <a href="/posts/create">
-                <button>Написати статю</button>
-              </a>
-              <button onClick={onClickLogout}>Вийти</button>
-            </>
-          ) : (
-            <>
-              <a href="/login">
-                <button>Увійти</button>
-              </a>
-              <a href="/register">
-                <button>Створити аккаунт</button>
-              </a>
-            </>
-          )}
+      <Container maxWidth="lg">
+        <div className={styles.inner}>
+          <a className={styles.logo} href="/">
+            <FeedIcon />
+            MPS BLOG
+          </a>
+          <div className={styles.buttons}>
+            {isAuth ? (
+              <>
+                <a href="/posts/create">
+                  <Button variant="contained">Write an article</Button>
+                </a>
+                <Button
+                  onClick={onClickLogout}
+                  variant="contained"
+                  color="error"
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <a href="/login">
+                  <Button variant="outlined">Login</Button>
+                </a>
+                <a href="/register">
+                  <Button variant="contained">Register</Button>
+                </a>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 };

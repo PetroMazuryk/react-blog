@@ -11,8 +11,11 @@
 }
 
 .logo {
-  background-color: #443b3b;
-  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--bg-logo);
+  color: var(--main-color);
   font-weight: 700;
   line-height: 35px;
   text-transform: uppercase;
@@ -22,13 +25,14 @@
   text-decoration: none;
 
   &:hover {
-    background-color: #4361ee;
+    background-color: var(--bg-hover-color);
   }
 }
 
 .buttons {
   button {
-    margin-left: 10px;
+    width: 100px;
+    margin-left: 18px;
   }
 
   a {
