@@ -1,4 +1,3 @@
-// import "./App.scss";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Container from "@mui/material/Container";
