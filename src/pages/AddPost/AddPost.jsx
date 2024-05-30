@@ -6,7 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 
-import styles from "./Post.module.scss";
+import styles from "./AddPost.module.scss";
 import { UserInfo } from "../../components/UserInfo/UserInfo";
 import { PostSkeleton } from "./Skeleton";
 
@@ -62,7 +62,7 @@ const Post = ({
           <ul className={styles.tags}>
             {tags.map((name) => (
               <li key={name}>
-                <Link to={`/tag/${name}`}>#{name}</Link>
+                <Link to={`/tags/${name}`}>#{name}</Link>
               </li>
             ))}
           </ul>
