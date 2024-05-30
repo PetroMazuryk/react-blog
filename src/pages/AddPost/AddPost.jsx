@@ -1,86 +1,87 @@
-import clsx from "clsx";
-import { Link } from "react-router-dom";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Clear";
-import EditIcon from "@mui/icons-material/Edit";
-import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
+import React from "react";
+import TextField from "@mui/material/TextField";
+import Paper from "@mui/material/Paper";
+import Button from "@mui/material/Button";
+import SimpleMDE from "react-simplemde-editor";
 
+import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
-import { UserInfo } from "../../components/UserInfo/UserInfo";
-import { PostSkeleton } from "./Skeleton";
 
-const Post = ({
-  _id,
-  title,
-  createdAt,
-  imageUrl,
-  user,
-  viewsCount,
-  commentsCount,
-  tags,
-  children,
-  isFullPost,
-  isLoading,
-  isEditable,
-}) => {
-  if (isLoading) {
-    return <PostSkeleton />;
-  }
+const AddPost = () => {
+  const imageUrl = "";
+  const [value, setValue] = React.useState("");
 
-  const onClickRemove = () => {};
+  const handleChangeFile = () => {};
+
+  const onClickRemoveImage = () => {};
+
+  const onChange = React.useCallback((value) => {
+    setValue(value);
+  }, []);
+
+  const options = React.useMemo(
+    () => ({
+      spellChecker: false,
+      maxHeight: "400px",
+      autofocus: true,
+      placeholder: "Введіть текст...",
+      status: false,
+      autosave: {
+        enabled: true,
+        delay: 1000,
+      },
+    }),
+    []
+  );
 
   return (
-    <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
-      {isEditable && (
-        <div className={styles.editButtons}>
-          <Link to={`/posts/${_id}/edit`}>
-            <IconButton color="primary">
-              <EditIcon />
-            </IconButton>
-          </Link>
-          <IconButton onClick={onClickRemove} color="secondary">
-            <DeleteIcon />
-          </IconButton>
-        </div>
+    <Paper style={{ padding: 30 }}>
+      <Button variant="outlined" size="large">
+        Завантажити превю
+      </Button>
+      <input type="file" onChange={handleChangeFile} hidden />
+      {imageUrl && (
+        <Button variant="contained" color="error" onClick={onClickRemoveImage}>
+          Видалити
+        </Button>
       )}
       {imageUrl && (
         <img
-          className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl}
-          alt={title}
+          className={styles.image}
+          src={`http://localhost:4444${imageUrl}`}
+          alt="Uploaded"
         />
       )}
-      <div className={styles.wrapper}>
-        <UserInfo {...user} additionalText={createdAt} />
-        <div className={styles.indention}>
-          <h2
-            className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
-          >
-            {isFullPost ? title : <Link to={`/posts/${_id}`}>{title}</Link>}
-          </h2>
-          <ul className={styles.tags}>
-            {tags.map((name) => (
-              <li key={name}>
-                <Link to={`/tags/${name}`}>#{name}</Link>
-              </li>
-            ))}
-          </ul>
-          {children && <div className={styles.content}>{children}</div>}
-          <ul className={styles.postDetails}>
-            <li>
-              <EyeIcon />
-              <span>{viewsCount}</span>
-            </li>
-            <li>
-              <CommentIcon />
-              <span>{commentsCount}</span>
-            </li>
-          </ul>
-        </div>
+      <br />
+      <br />
+      <TextField
+        classes={{ root: styles.title }}
+        variant="standard"
+        placeholder="Заголовок статті..."
+        fullWidth
+      />
+      <TextField
+        classes={{ root: styles.tags }}
+        variant="standard"
+        placeholder="Теги"
+        fullWidth
+      />
+      <SimpleMDE
+        className={styles.editor}
+        value={value}
+        onChange={onChange}
+        options={options}
+      />
+      <div className={styles.buttons}>
+        <Button size="large" variant="contained">
+          Опублікувати
+        </Button>
+        <a href="/">
+          <Button size="large">Відміна</Button>
+        </a>
       </div>
-    </div>
+    </Paper>
   );
 };
 
-export default Post;
+export default AddPost;
