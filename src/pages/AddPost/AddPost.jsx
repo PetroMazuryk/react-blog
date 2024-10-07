@@ -4,7 +4,7 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 // import SimpleMDE from "react-simplemde-editor";
 
-import "easymde/dist/easymde.min.css";
+// import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
 
 const AddPost = () => {
