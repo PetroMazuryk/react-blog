@@ -7,11 +7,11 @@ import EyeIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 
 import styles from "./Post.module.scss";
-import { UserInfo } from "../../components/UserInfo/UserInfo";
+import { UserInfo } from "../UserInfo/UserInfo";
 import { PostSkeleton } from "./Skeleton";
 
 export const Post = ({
-  id,
+  _id,
   title,
   createdAt,
   imageUrl,
@@ -58,7 +58,7 @@ export const Post = ({
           <h2
             className={clsx(styles.title, { [styles.titleFull]: isFullPost })}
           >
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+            {isFullPost ? title : <Link to={`/posts/${_id}`}>{title}</Link>}
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
