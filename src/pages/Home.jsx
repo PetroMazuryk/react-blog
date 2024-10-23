@@ -1,3 +1,4 @@
+import React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Grid from "@mui/material/Grid";
@@ -5,6 +6,7 @@ import Grid from "@mui/material/Grid";
 import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
+import apiInstance from "../services/apiBlog";
 
 const posts = [
   {
@@ -41,6 +43,9 @@ const posts = [
 ];
 
 const Home = () => {
+  React.useEffect(() => {
+    apiInstance.get("/api/post");
+  }, []);
   return (
     <>
       <Tabs
