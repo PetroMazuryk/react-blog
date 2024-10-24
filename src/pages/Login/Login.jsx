@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData, selectIsAuth } from "../../redux/slices/auth";
+import { login } from "../../redux/auth/operations";
+import { selectIsAuth } from "../../redux/auth/auth";
 import { Navigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
@@ -25,7 +26,7 @@ const Login = () => {
     mode: "onChange",
   });
   const onSubmit = (values) => {
-    dispatch(fetchUserData(values));
+    dispatch(login(values));
   };
 
   if (isAuth) {
