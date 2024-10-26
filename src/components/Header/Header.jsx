@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectIsAuth } from "../../redux/auth/auth";
+import { selectIsAuth } from "../../redux/auth/slice";
 import Container from "@mui/material/Container";
 import FeedIcon from "@mui/icons-material/Feed";
 import Button from "@mui/material/Button";

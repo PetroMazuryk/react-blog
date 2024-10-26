@@ -34,7 +34,6 @@ const postSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPosts.pending, (state) => {
-        state.posts.items = [];
         state.posts.status = "loading";
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
@@ -42,7 +41,6 @@ const postSlice = createSlice({
         state.posts.status = "loaded";
       })
       .addCase(fetchPosts.rejected, (state) => {
-        state.posts.items = [];
         state.posts.status = "error";
       });
   },

@@ -9,7 +9,7 @@ import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
 
-import { fetchPosts } from "../redux/posts/post";
+import { fetchPosts } from "../redux/posts/slice";
 
 // const posts = [
 //   {
@@ -67,7 +67,7 @@ const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid item xs={8}>
-          {(isPostLoading ? [...Array(3)] : posts.items).map((post, index) =>
+          {/* {(isPostLoading ? [...Array(3)] : posts.items).map((post, index) =>
             isPostLoading ? (
               <Post key={index} isLoading={true} />
             ) : (
@@ -78,13 +78,30 @@ const Home = () => {
                 // imageUrl={post.imageUrl}
                 // user={post.user}
                 // createdAt={post.createdAt}
-                viewsCount={post.viewsCount}
+                // viewsCount={post.viewsCount}
                 // commentsCount={post.commentsCount}
                 // tags={post.tags}
                 isloading={true}
                 isEditable
               />
             )
+          )} */}
+          {isPostLoading ? (
+            [...Array(3)].map((_, index) => (
+              <Post key={index} isLoading={true} />
+            ))
+          ) : posts.items && posts.items.length > 0 ? (
+            posts.items.map((post) => (
+              <Post
+                key={post._id}
+                id={post._id}
+                title={post.title}
+                viewsCount={post.viewsCount}
+                isLoading={false}
+              />
+            ))
+          ) : (
+            <p>No posts available.</p>
           )}
         </Grid>
         <Grid xs={4} item>

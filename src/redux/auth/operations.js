@@ -1,12 +1,12 @@
-import axios from "axios";
+// import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../services/apiBlog";
+import { setAuthHeader } from "../../services/apiBlog";
+// const setAuthHeader = (token) => {
+//   axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+// };
 
-const setAuthHeader = (token) => {
-  axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const login = createAsyncThunk(
+export const logIn = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
