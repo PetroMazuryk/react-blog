@@ -27,22 +27,7 @@ import { fetchPosts } from "../redux/posts/slice";
 //     commentsCount: 3,
 //     tags: ["react", "fun", "typescript"],
 //   },
-//   {
-//     _id: 2,
-//     title: "Roast the code #2 | Rock Paper Scissors",
 
-//     imageUrl:
-//       "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png",
-//     user: {
-//       avatarUrl:
-//         "https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
-//       fullName: "Keff",
-//     },
-//     createdAt: "04 november 2024",
-//     viewsCount: 200,
-//     commentsCount: 4,
-//     tags: ["react", "fun", "typescript"],
-//   },
 // ];
 
 const Home = () => {
@@ -67,25 +52,6 @@ const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid item xs={8}>
-          {/* {(isPostLoading ? [...Array(3)] : posts.items).map((post, index) =>
-            isPostLoading ? (
-              <Post key={index} isLoading={true} />
-            ) : (
-              <Post
-                key={post._id}
-                id={post._id}
-                title={post.title}
-                // imageUrl={post.imageUrl}
-                // user={post.user}
-                // createdAt={post.createdAt}
-                // viewsCount={post.viewsCount}
-                // commentsCount={post.commentsCount}
-                // tags={post.tags}
-                isloading={true}
-                isEditable
-              />
-            )
-          )} */}
           {isPostLoading ? (
             [...Array(3)].map((_, index) => (
               <Post key={index} isLoading={true} />
@@ -96,8 +62,14 @@ const Home = () => {
                 key={post._id}
                 id={post._id}
                 title={post.title}
+                imageUrl={post.imageUrl}
+                user={post.user}
+                createdAt={post.createdAt}
+                commentsCount={post.commentsCount}
+                tags={post.tags}
                 viewsCount={post.viewsCount}
                 isLoading={false}
+                isEditable
               />
             ))
           ) : (
