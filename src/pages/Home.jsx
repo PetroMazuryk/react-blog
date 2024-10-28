@@ -8,8 +8,7 @@ import Grid from "@mui/material/Grid";
 import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
-
-import { fetchPosts } from "../redux/posts/slice";
+import { fetchPosts } from "../redux/posts/operations";
 
 // const posts = [
 //   {

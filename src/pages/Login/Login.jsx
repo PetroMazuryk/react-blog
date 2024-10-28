@@ -16,7 +16,6 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -25,6 +24,7 @@ const Login = () => {
     },
     mode: "onChange",
   });
+
   const onSubmit = (values) => {
     dispatch(logIn(values));
   };
