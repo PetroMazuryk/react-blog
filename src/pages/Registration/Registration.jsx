@@ -1,13 +1,15 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import { Navigate } from "react-router-dom";
 import { registerUser } from "../../redux/auth/operations";
+import { selectIsAuth } from "../../redux/auth/slice";
 import { Typography, TextField, Paper, Button, Avatar } from "@mui/material";
 
 import styles from "./Registration.module.scss";
 
 const Registration = () => {
   const dispatch = useDispatch();
-
+  const isAuth = useSelector(selectIsAuth);
   const {
     register,
     handleSubmit,
@@ -24,6 +26,10 @@ const Registration = () => {
   const onSubmit = (values) => {
     dispatch(registerUser(values));
   };
+
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <Paper classes={{ root: styles.root }}>
