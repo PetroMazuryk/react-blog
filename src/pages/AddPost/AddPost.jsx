@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { selectIsAuth } from "../../redux/auth/slice";
-
+import apiInstance from "../../services/apiBlog";
 import { TextField, Paper, Button } from "@mui/material";
 
 import SimpleMDE from "react-simplemde-editor";
@@ -10,15 +10,31 @@ import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
 
 const AddPost = () => {
-  const imageUrl = "";
   const isAuth = useSelector(selectIsAuth);
   const [value, setValue] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
+  const [imageUrl, setImageURL] = React.useState("");
+  const inputFileRef = React.useRef(null);
 
-  const handleChangeFile = () => {};
+  const handleChangeFile = async (event) => {
+ 
+    try {
+      const formData = new FormData();
+      const file = event.target.files[0];
+      formData.append("image", file);
+      const { data } = await apiInstance.post("/users/upload", formData);
+      console.log(data.url);
+      setImageURL(data.url);
+    } catch (err) {
+      console.warn(err);
+      alert("Помилка при завантаженні файлу");
+    }
+  };
 
-  const onClickRemoveImage = () => {};
+  const onClickRemoveImage = () => {
+    setImageURL("");
+  };
 
   const onChange = React.useCallback((value) => {
     setValue(value);
@@ -46,22 +62,36 @@ const AddPost = () => {
 
   return (
     <Paper style={{ padding: 30 }}>
-      <Button variant="outlined" size="large">
+      <Button
+        onClick={() => inputFileRef.current.click()}
+        variant="outlined"
+        size="large"
+      >
         Завантажити превю
       </Button>
-      <input type="file" onChange={handleChangeFile} hidden />
+      <input
+        ref={inputFileRef}
+        type="file"
+        onChange={handleChangeFile}
+        hidden
+      />
       {imageUrl && (
-        <Button variant="contained" color="error" onClick={onClickRemoveImage}>
-          Видалити
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={onClickRemoveImage}
+          >
+            Видалити
+          </Button>
+          <img
+            className={styles.image}
+            src={`http://localhost:4444${imageUrl}`}
+            alt="Uploaded"
+          />
+        </>
       )}
-      {imageUrl && (
-        <img
-          className={styles.image}
-          src={`http://localhost:4444${imageUrl}`}
-          alt="Uploaded"
-        />
-      )}
+
       <br />
       <br />
       <TextField
