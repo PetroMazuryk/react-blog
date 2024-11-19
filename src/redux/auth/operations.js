@@ -30,3 +30,13 @@ export const logIn = createAsyncThunk(
     }
   }
 );
+
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    await apiInstance.post("/users/logout");
+    setAuthHeader();
+    return true;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response?.data || error.message);
+  }
+});

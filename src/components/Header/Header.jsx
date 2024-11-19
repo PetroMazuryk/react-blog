@@ -1,4 +1,7 @@
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/auth/operations";
+import { resetAuthState } from "../../redux/auth/slice";
 import { selectIsAuth } from "../../redux/auth/slice";
 import Container from "@mui/material/Container";
 import FeedIcon from "@mui/icons-material/Feed";
@@ -7,9 +10,22 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 
 export const Header = () => {
+  const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
 
-  const onClickLogout = () => {};
+  const onClickLogout = async () => {
+    const resultAction = await dispatch(logout());
+
+    if (logout.fulfilled.match(resultAction)) {
+      localStorage.removeItem("authToken");
+
+      dispatch(resetAuthState());
+
+      console.log("Successfully logged out");
+    } else {
+      console.error("Logout failed:", resultAction.payload);
+    }
+  };
 
   return (
     <div className={styles.root}>
