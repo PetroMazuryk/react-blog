@@ -34,12 +34,11 @@ export const Post = ({
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
       {isEditable && (
         <div className={styles.editButtons}>
-          <a>
-            {/* <a href={`/posts/${_id}/edit`}> */}
+          <Link to={`/posts/${_id}/edit`}>
             <IconButton color="primary">
               <EditIcon />
             </IconButton>
-          </a>
+          </Link>
           <IconButton onClick={onClickRemove} color="secondary">
             <DeleteIcon />
           </IconButton>
@@ -64,8 +63,7 @@ export const Post = ({
           <ul className={styles.tags}>
             {tags.map((name) => (
               <li key={name}>
-                {/* <a href={`/tag/${name}`}>#{name}</a> */}
-                <a>#{name}</a>
+                <Link to={`/tag/${name}`}>#{name}</Link>
               </li>
             ))}
           </ul>
