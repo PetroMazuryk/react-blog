@@ -14,3 +14,17 @@ export const fetchPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchLastTags = createAsyncThunk(
+  "posts/fetchLastTags",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await apiInstance.get("/tags");
+
+      return data;
+    } catch (err) {
+      console.error("Error in fetchPost:", err);
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);

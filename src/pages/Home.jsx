@@ -8,7 +8,7 @@ import Grid from "@mui/material/Grid";
 import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
-import { fetchPosts } from "../redux/posts/operations";
+import { fetchPosts, fetchLastTags } from "../redux/posts/operations";
 
 // const posts = [
 //   {
@@ -31,12 +31,14 @@ import { fetchPosts } from "../redux/posts/operations";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
+  const { posts, tags } = useSelector((state) => state.posts);
 
   const isPostLoading = posts.status === "loading";
+  const isTagsLoading = tags.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchPosts());
+    dispatch(fetchLastTags());
   }, [dispatch]);
   console.log(posts);
   return (
@@ -76,10 +78,7 @@ const Home = () => {
           )}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock
-            items={["react", "typescript", "нотатки"]}
-            isLoading={false}
-          />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {
