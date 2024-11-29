@@ -65,7 +65,7 @@ const Home = () => {
                 title={post.title}
                 imageUrl={post.imageUrl}
                 user={post.user}
-                createdAt={post.createdAt}
+                createdAt={post.createdAt.slice(0, 10)}
                 commentsCount={post.commentsCount}
                 tags={post.tags}
                 viewsCount={post.viewsCount}

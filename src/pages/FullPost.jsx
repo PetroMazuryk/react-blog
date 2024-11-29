@@ -1,32 +1,53 @@
+import React from "react";
+import { useParams } from "react-router-dom";
 import { Post } from "../components/Post/Post";
 import { Index } from "../components/AddComment/AddComment";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
+import apiInstance from "../services/apiBlog";
 
 const FullPost = () => {
+  const [data, setData] = React.useState();
+  const [isLoading, setIsLoading] = React.useState(true);
+  const { id } = useParams();
+
+  React.useEffect(() => {
+    apiInstance
+      .get(`/posts/${id}`)
+      .then((res) => {
+        setData(res.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("Помилка при отриманні статті");
+      });
+  }, [id]);
+
+  if (isLoading) {
+    return <Post isLoading={isLoading} isFullPost />;
+  }
+
   return (
     <>
       <Post
-        _id={1}
-        title="Roast the code #1 | Rock Paper Scissors"
-        imageUrl="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png"
-        user={{
-          avatarUrl:
-            "https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
-          fullName: "Keff",
-        }}
-        createdAt={"12 июня 2022 р."}
-        viewsCount={150}
-        commentsCount={3}
-        tags={["react", "fun", "typescript"]}
+        data
+        // user={{
+        //   avatarUrl:
+        //     "https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
+        //   fullName: "Keff",
+        // }}
+
+        id={data._id}
+        title={data.title}
+        imageUrl={data.imageUrl}
+        user={data.user}
+        createdAt={data.createdAt.slice(0, 10)}
+        commentsCount={data.commentsCount}
+        tags={data.tags}
+        viewsCount={data.viewsCount}
         isFullPost
       >
-        <p>
-          Hey there! 👋 I am starting a new series called Roast the Code, where
-          I will share some code, and let YOU roast and improve it. There is not
-          much more to it, just be polite and constructive, this is an exercise
-          so we can all learn together. Now then, head over to the repo and
-          roast as hard as you can!!
-        </p>
+        <p>{data.text}</p>
       </Post>
       <CommentsBlock
         items={[
