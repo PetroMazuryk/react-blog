@@ -25,8 +25,15 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = (values) => {
-    dispatch(logIn(values));
+  const onSubmit = async (values) => {
+    const data = await dispatch(logIn(values));
+
+    if (!data.payload) {
+      return alert("Не вдалося авторизуватися");
+    }
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
 
   if (isAuth) {

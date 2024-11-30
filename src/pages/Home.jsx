@@ -40,7 +40,7 @@ const Home = () => {
     dispatch(fetchPosts());
     dispatch(fetchLastTags());
   }, [dispatch]);
-  console.log(posts);
+
   return (
     <>
       <Tabs

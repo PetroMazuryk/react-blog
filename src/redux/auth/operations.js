@@ -40,3 +40,17 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response?.data || error.message);
   }
 });
+
+export const current = createAsyncThunk(
+  "auth/current",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      const { data } = await apiInstance.get("/users/current", credentials);
+      setAuthHeader(data.token);
+      return data;
+    } catch (error) {
+      console.error("Error in login:", error);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);

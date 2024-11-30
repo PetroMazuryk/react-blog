@@ -1,5 +1,4 @@
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/auth/operations";
 import { resetAuthState } from "../../redux/auth/slice";
 import { selectIsAuth } from "../../redux/auth/slice";
