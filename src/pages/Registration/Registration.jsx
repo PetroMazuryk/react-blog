@@ -13,7 +13,7 @@ const Registration = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     defaultValues: {
       fullName: "",
@@ -66,7 +66,13 @@ const Registration = () => {
           {...register("password", { required: "Вкажіть пароль" })}
           fullWidth
         />
-        <Button type="submit" variant="contained" fullWidth size="large">
+        <Button
+          disabled={!isValid}
+          type="submit"
+          variant="contained"
+          fullWidth
+          size="large"
+        >
           Register
         </Button>
       </form>
