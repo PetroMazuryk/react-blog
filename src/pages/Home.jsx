@@ -31,6 +31,7 @@ import { fetchPosts, fetchLastTags } from "../redux/posts/operations";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
 
   const isPostLoading = posts.status === "loading";
@@ -69,8 +70,9 @@ const Home = () => {
                 commentsCount={post.commentsCount}
                 tags={post.tags}
                 viewsCount={post.viewsCount}
-                isLoading={false}
-                isEditable
+                // isLoading={false}
+
+                isEditable={userData?._id === post.user._id}
               />
             ))
           ) : (

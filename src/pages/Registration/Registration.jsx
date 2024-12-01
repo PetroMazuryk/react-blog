@@ -24,7 +24,14 @@ const Registration = () => {
   });
 
   const onSubmit = (values) => {
-    dispatch(registerUser(values));
+    const data = dispatch(registerUser(values));
+
+    if (!data.payload) {
+      return alert("Не вдалося зареєструватися");
+    }
+    if ("token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+    }
   };
 
   if (isAuth) {
