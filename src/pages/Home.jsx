@@ -64,7 +64,9 @@ const Home = () => {
                 key={post._id}
                 id={post._id}
                 title={post.title}
-                imageUrl={post.imageUrl}
+                imageUrl={
+                  post.imageUrl ? `http://localhost:4444${post.imageUrl}` : ""
+                }
                 user={post.user}
                 createdAt={post.createdAt.slice(0, 10)}
                 commentsCount={post.commentsCount}

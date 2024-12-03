@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchPosts, fetchLastTags } from "./operations";
+import { fetchPosts, fetchLastTags, deletePost } from "./operations";
 
 const initialState = {
   posts: {
@@ -42,6 +42,11 @@ const postSlice = createSlice({
       .addCase(fetchLastTags.rejected, (state) => {
         state.tags.items = [];
         state.tags.status = "error";
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        state.posts.items = state.posts.items.filter(
+          (item) => item._id !== action.payload._id
+        );
       });
   },
 });

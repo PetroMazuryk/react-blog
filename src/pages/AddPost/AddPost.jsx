@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { selectIsAuth } from "../../redux/auth/slice";
 import apiInstance from "../../services/apiBlog";
 import { TextField, Paper, Button } from "@mui/material";
@@ -11,7 +11,9 @@ import styles from "./AddPost.module.scss";
 
 const AddPost = () => {
   const isAuth = useSelector(selectIsAuth);
-  const [value, setValue] = React.useState("");
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
   const [imageUrl, setImageURL] = React.useState("");
@@ -37,8 +39,22 @@ const AddPost = () => {
   };
 
   const onChange = React.useCallback((value) => {
-    setValue(value);
+    setText(value);
   }, []);
+
+  const onSubmit = async () => {
+    try {
+      setIsLoading(true);
+      const fields = { title, imageUrl, tags, text };
+      const { data } = await apiInstance.post("/posts", fields);
+
+      const id = data._id;
+      navigate(`/post/${id}`);
+    } catch (error) {
+      console.warn(error);
+      alert("Помилка при створенні статті");
+    }
+  };
 
   const options = React.useMemo(
     () => ({
@@ -113,17 +129,17 @@ const AddPost = () => {
       />
       <SimpleMDE
         className={styles.editor}
-        value={value}
+        value={text}
         onChange={onChange}
         options={options}
       />
       <div className={styles.buttons}>
-        <Button size="large" variant="contained">
+        <Button onClick={onSubmit} size="large" variant="contained">
           Опублікувати
         </Button>
-        <a href="/">
+        <Link to="/">
           <Button size="large">Відміна</Button>
-        </a>
+        </Link>
       </div>
     </Paper>
   );

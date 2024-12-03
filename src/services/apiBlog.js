@@ -13,7 +13,10 @@ export const setAuthHeader = (token) => {
 };
 
 apiInstance.interceptors.request.use((config) => {
-  config.headers.Authorization = window.localStorage.getItem("token");
+  const token = window.localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
   return config;
 });
 

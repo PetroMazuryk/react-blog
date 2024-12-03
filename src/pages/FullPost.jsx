@@ -4,6 +4,7 @@ import { Post } from "../components/Post/Post";
 import { Index } from "../components/AddComment/AddComment";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
 import apiInstance from "../services/apiBlog";
+import ReactMarkdown from "react-markdown";
 
 const FullPost = () => {
   const [data, setData] = React.useState();
@@ -37,7 +38,7 @@ const FullPost = () => {
         // }}
         id={data._id}
         title={data.title}
-        imageUrl={data.imageUrl}
+        imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ""}
         user={data.user}
         createdAt={data.createdAt.slice(0, 10)}
         commentsCount={data.commentsCount}
@@ -46,6 +47,7 @@ const FullPost = () => {
         isFullPost
       >
         <p>{data.text}</p>
+        <ReactMarkdown>{data.text}</ReactMarkdown>
       </Post>
       <CommentsBlock
         items={[

@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Clear";
@@ -9,6 +10,7 @@ import CommentIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import styles from "./Post.module.scss";
 import { UserInfo } from "../UserInfo/UserInfo";
 import { PostSkeleton } from "./Skeleton";
+import { deletePost } from "../../redux/posts/operations";
 
 export const Post = ({
   id,
@@ -24,11 +26,21 @@ export const Post = ({
   isLoading,
   isEditable,
 }) => {
+  const dispatch = useDispatch();
   if (isLoading) {
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {};
+  const onClickRemove = async () => {
+    if (window.confirm("Ви дійсно хочете видалити статтю?")) {
+      try {
+        await dispatch(deletePost(id)).unwrap();
+        alert("Статтю успішно видалено.");
+      } catch (error) {
+        alert("Не вдалося видалити статтю: " + error);
+      }
+    }
+  };
 
   return (
     <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>

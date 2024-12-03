@@ -28,3 +28,17 @@ export const fetchLastTags = createAsyncThunk(
     }
   }
 );
+
+export const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async (id, { rejectWithValue }) => {
+    try {
+      const { data } = await apiInstance.delete(`/posts/${id}`);
+
+      return data;
+    } catch (err) {
+      console.error("Error in deletePost:", err);
+      return rejectWithValue(err.response?.data || err.message);
+    }
+  }
+);
