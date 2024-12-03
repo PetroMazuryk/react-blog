@@ -14,7 +14,7 @@ export const Post = ({
   id,
   title,
   createdAt,
-  imageUrl,
+  imageUrl = "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png",
   user,
   viewsCount,
   commentsCount = 1,

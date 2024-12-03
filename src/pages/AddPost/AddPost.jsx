@@ -18,12 +18,12 @@ const AddPost = () => {
   const inputFileRef = React.useRef(null);
 
   const handleChangeFile = async (event) => {
- 
+    console.log(event.target.files);
     try {
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append("image", file);
-      const { data } = await apiInstance.post("/users/upload", formData);
+      const { data } = await apiInstance.post("/api/upload", formData);
       console.log(data.url);
       setImageURL(data.url);
     } catch (err) {
@@ -84,6 +84,7 @@ const AddPost = () => {
           >
             Видалити
           </Button>
+
           <img
             className={styles.image}
             src={`http://localhost:4444${imageUrl}`}

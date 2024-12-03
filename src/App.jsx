@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import { Header } from "./components/Header/Header";
 import { current } from "./redux/auth/operations";
 import { selectIsAuth } from "./redux/auth/slice";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 const Home = lazy(() => import("./pages/Home"));
 const FullPost = lazy(() => import("./pages/FullPost"));
@@ -30,7 +31,15 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/posts/:id" element={<FullPost />} />
-            {isAuth && <Route path="/add-post" element={<AddPost />} />}
+            <Route
+              path="/add-post"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <AddPost />
+                </ProtectedRoute>
+              }
+            />
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
           </Routes>
