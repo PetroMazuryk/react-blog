@@ -35,7 +35,7 @@ export const Post = ({
     if (window.confirm("Ви дійсно хочете видалити статтю?")) {
       try {
         await dispatch(deletePost(id)).unwrap();
-        alert("Статтю успішно видалено.");
+        // alert("Статтю успішно видалено.");
       } catch (error) {
         alert("Не вдалося видалити статтю: " + error);
       }

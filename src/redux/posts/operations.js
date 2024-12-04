@@ -33,9 +33,9 @@ export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (id, { rejectWithValue }) => {
     try {
-      const { data } = await apiInstance.delete(`/posts/${id}`);
+      await apiInstance.delete(`/posts/${id}`);
 
-      return data;
+      return id;
     } catch (err) {
       console.error("Error in deletePost:", err);
       return rejectWithValue(err.response?.data || err.message);

@@ -25,7 +25,7 @@ const AddPost = () => {
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append("image", file);
-      const { data } = await apiInstance.post("/api/upload", formData);
+      const { data } = await apiInstance.post("/upload", formData);
       console.log(data.url);
       setImageURL(data.url);
     } catch (err) {
@@ -49,7 +49,7 @@ const AddPost = () => {
       const { data } = await apiInstance.post("/posts", fields);
 
       const id = data._id;
-      navigate(`/post/${id}`);
+      navigate(`/posts/${id}`);
     } catch (error) {
       console.warn(error);
       alert("Помилка при створенні статті");
