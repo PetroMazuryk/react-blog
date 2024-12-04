@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { selectIsAuth } from "../../redux/auth/slice";
 import apiInstance from "../../services/apiBlog";
 import { TextField, Paper, Button, CircularProgress } from "@mui/material";
@@ -12,12 +12,15 @@ import styles from "./AddPost.module.scss";
 const AddPost = () => {
   const isAuth = useSelector(selectIsAuth);
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
   const [text, setText] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState("");
   const [imageUrl, setImageURL] = React.useState("");
   const inputFileRef = React.useRef(null);
+
+  const isEditing = Boolean(id);
 
   const handleChangeFile = async (event) => {
     try {
@@ -47,10 +50,12 @@ const AddPost = () => {
     try {
       setIsLoading(true);
       const fields = { title, imageUrl, tags, text };
-      const { data } = await apiInstance.post("/posts", fields);
+      const { data } = isEditing
+        ? await apiInstance.patch(`/posts/${id}`, fields)
+        : await apiInstance.post("/posts", fields);
 
-      const id = data._id;
-      navigate(`/posts/${id}`);
+      const _id = isEditing ? id : data._id;
+      navigate(`/posts/${_id}`);
     } catch (error) {
       console.warn(error);
       alert("Помилка при створенні статті");
@@ -58,6 +63,23 @@ const AddPost = () => {
       setIsLoading(false);
     }
   };
+
+  React.useEffect(() => {
+    if (id) {
+      apiInstance
+        .get(`/posts/${id}`)
+        .then(({ data }) => {
+          setTitle(data.title);
+          setText(data.text);
+          setImageURL(data.imageUrl);
+          setTags(data.tags.join(","));
+        })
+        .catch((err) => {
+          console.warn(err);
+          alert("Помилка отримання статті");
+        });
+    }
+  }, [id]);
 
   const options = React.useMemo(
     () => ({
@@ -148,7 +170,18 @@ const AddPost = () => {
           variant="contained"
           disabled={isLoading}
         >
-          {isLoading ? <CircularProgress size={20} /> : "Опублікувати"}
+          {isEditing ? (
+            isLoading ? (
+              <CircularProgress size={20} />
+            ) : (
+              "Редагувати"
+            )
+          ) : isLoading ? (
+            <CircularProgress size={20} />
+          ) : (
+            "Опублікувати"
+          )}
+          {/* {isLoading ? <CircularProgress size={20} /> : "Опублікувати"} */}
         </Button>
         <Link to="/">
           <Button size="large" disabled={isLoading}>
