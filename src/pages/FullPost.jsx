@@ -46,7 +46,6 @@ const FullPost = () => {
         viewsCount={data.viewsCount}
         isFullPost
       >
-        <p>{data.text}</p>
         <ReactMarkdown>{data.text}</ReactMarkdown>
       </Post>
       <CommentsBlock

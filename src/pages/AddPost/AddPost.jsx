@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { selectIsAuth } from "../../redux/auth/slice";
 import apiInstance from "../../services/apiBlog";
-import { TextField, Paper, Button } from "@mui/material";
+import { TextField, Paper, Button, CircularProgress } from "@mui/material";
 
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -20,17 +20,18 @@ const AddPost = () => {
   const inputFileRef = React.useRef(null);
 
   const handleChangeFile = async (event) => {
-    console.log(event.target.files);
     try {
+      setIsLoading(true);
       const formData = new FormData();
       const file = event.target.files[0];
       formData.append("image", file);
       const { data } = await apiInstance.post("/upload", formData);
-      console.log(data.url);
       setImageURL(data.url);
     } catch (err) {
       console.warn(err);
       alert("Помилка при завантаженні файлу");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -53,6 +54,8 @@ const AddPost = () => {
     } catch (error) {
       console.warn(error);
       alert("Помилка при створенні статті");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,8 +85,9 @@ const AddPost = () => {
         onClick={() => inputFileRef.current.click()}
         variant="outlined"
         size="large"
+        disabled={isLoading}
       >
-        Завантажити превю
+        {isLoading ? <CircularProgress size={20} /> : "Завантажити прев’ю"}
       </Button>
       <input
         ref={inputFileRef}
@@ -94,9 +98,11 @@ const AddPost = () => {
       {imageUrl && (
         <>
           <Button
+            className={styles.btnDelete}
             variant="contained"
             color="error"
             onClick={onClickRemoveImage}
+            disabled={isLoading}
           >
             Видалити
           </Button>
@@ -118,6 +124,7 @@ const AddPost = () => {
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         fullWidth
+        disabled={isLoading}
       />
       <TextField
         classes={{ root: styles.tags }}
@@ -126,6 +133,7 @@ const AddPost = () => {
         value={tags}
         onChange={(e) => setTags(e.target.value)}
         fullWidth
+        disabled={isLoading}
       />
       <SimpleMDE
         className={styles.editor}
@@ -134,11 +142,18 @@ const AddPost = () => {
         options={options}
       />
       <div className={styles.buttons}>
-        <Button onClick={onSubmit} size="large" variant="contained">
-          Опублікувати
+        <Button
+          onClick={onSubmit}
+          size="large"
+          variant="contained"
+          disabled={isLoading}
+        >
+          {isLoading ? <CircularProgress size={20} /> : "Опублікувати"}
         </Button>
         <Link to="/">
-          <Button size="large">Відміна</Button>
+          <Button size="large" disabled={isLoading}>
+            Відміна
+          </Button>
         </Link>
       </div>
     </Paper>
