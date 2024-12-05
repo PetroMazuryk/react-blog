@@ -14,12 +14,15 @@ const AddPost = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [isLoading, setIsLoading] = React.useState(false);
-  const [text, setText] = React.useState("");
-  const [title, setTitle] = React.useState("");
-  const [tags, setTags] = React.useState("");
-  const [imageUrl, setImageURL] = React.useState("");
-  const inputFileRef = React.useRef(null);
 
+  const [formData, setFormData] = React.useState({
+    text: "",
+    title: "",
+    tags: "",
+    imageUrl: "",
+  });
+
+  const inputFileRef = React.useRef(null);
   const isEditing = Boolean(id);
 
   const handleChangeFile = async (event) => {
@@ -29,7 +32,7 @@ const AddPost = () => {
       const file = event.target.files[0];
       formData.append("image", file);
       const { data } = await apiInstance.post("/upload", formData);
-      setImageURL(data.url);
+      setFormData((prev) => ({ ...prev, imageUrl: data.url }));
     } catch (err) {
       console.warn(err);
       alert("Помилка при завантаженні файлу");
@@ -39,17 +42,23 @@ const AddPost = () => {
   };
 
   const onClickRemoveImage = () => {
-    setImageURL("");
+    setFormData((prev) => ({ ...prev, imageUrl: "" }));
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const onChange = React.useCallback((value) => {
-    setText(value);
+    setFormData((prev) => ({ ...prev, text: value }));
   }, []);
 
   const onSubmit = async () => {
     try {
       setIsLoading(true);
-      const fields = { title, imageUrl, tags, text };
+      const { text, title, tags, imageUrl } = formData;
+      const fields = { text, title, tags, imageUrl };
       const { data } = isEditing
         ? await apiInstance.patch(`/posts/${id}`, fields)
         : await apiInstance.post("/posts", fields);
@@ -69,10 +78,12 @@ const AddPost = () => {
       apiInstance
         .get(`/posts/${id}`)
         .then(({ data }) => {
-          setTitle(data.title);
-          setText(data.text);
-          setImageURL(data.imageUrl);
-          setTags(data.tags.join(","));
+          setFormData({
+            title: data.title,
+            text: data.text,
+            imageUrl: data.imageUrl,
+            tags: data.tags.join(","),
+          });
         })
         .catch((err) => {
           console.warn(err);
@@ -117,7 +128,7 @@ const AddPost = () => {
         onChange={handleChangeFile}
         hidden
       />
-      {imageUrl && (
+      {formData.imageUrl && (
         <>
           <Button
             className={styles.btnDelete}
@@ -131,7 +142,7 @@ const AddPost = () => {
 
           <img
             className={styles.image}
-            src={`http://localhost:4444${imageUrl}`}
+            src={`http://localhost:4444${formData.imageUrl}`}
             alt="Uploaded"
           />
         </>
@@ -140,26 +151,28 @@ const AddPost = () => {
       <br />
       <br />
       <TextField
+        name="title"
         classes={{ root: styles.title }}
         variant="standard"
         placeholder="Заголовок статті..."
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        value={formData.title}
+        onChange={handleChange}
         fullWidth
         disabled={isLoading}
       />
       <TextField
+        name="tags"
         classes={{ root: styles.tags }}
         variant="standard"
         placeholder="Теги"
-        value={tags}
-        onChange={(e) => setTags(e.target.value)}
+        value={formData.tags}
+        onChange={handleChange}
         fullWidth
         disabled={isLoading}
       />
       <SimpleMDE
         className={styles.editor}
-        value={text}
+        value={formData.text}
         onChange={onChange}
         options={options}
       />
@@ -181,7 +194,6 @@ const AddPost = () => {
           ) : (
             "Опублікувати"
           )}
-          {/* {isLoading ? <CircularProgress size={20} /> : "Опублікувати"} */}
         </Button>
         <Link to="/">
           <Button size="large" disabled={isLoading}>
