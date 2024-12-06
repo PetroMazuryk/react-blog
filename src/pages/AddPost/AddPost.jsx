@@ -4,7 +4,7 @@ import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { selectIsAuth } from "../../redux/auth/slice";
 import apiInstance from "../../services/apiBlog";
 import { TextField, Paper, Button, CircularProgress } from "@mui/material";
-
+import LoadingButton from "../../components/LoadingButton/LoadingButton";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 import styles from "./AddPost.module.scss";
@@ -177,24 +177,16 @@ const AddPost = () => {
         options={options}
       />
       <div className={styles.buttons}>
-        <Button
+        <LoadingButton
+          isLoading={isLoading}
+          isEditing={isEditing}
           onClick={onSubmit}
           size="large"
           variant="contained"
-          disabled={isLoading}
-        >
-          {isEditing ? (
-            isLoading ? (
-              <CircularProgress size={20} />
-            ) : (
-              "Редагувати"
-            )
-          ) : isLoading ? (
-            <CircularProgress size={20} />
-          ) : (
-            "Опублікувати"
-          )}
-        </Button>
+          editText="Редагувати"
+          publishText="Опублікувати"
+        />
+
         <Link to="/">
           <Button size="large" disabled={isLoading}>
             Відміна
