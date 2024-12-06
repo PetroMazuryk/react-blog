@@ -1,41 +1,32 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Grid from "@mui/material/Grid";
+import { Tabs, Tab, Grid } from "@mui/material";
 
 import { Post } from "../components/Post/Post";
 import { TagsBlock } from "../components/UserInfo/TagsBlock";
 import { CommentsBlock } from "../components/UserInfo/CommentsBlock";
 import { fetchPosts, fetchLastTags } from "../redux/posts/operations";
 
-// const posts = [
-//   {
-//     _id: 1,
-//     title: "Roast the code #1 | Rock Paper Scissors",
-//     imageUrl:
-//       "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/icohm5g0axh9wjmu4oc3.png",
-//     user: {
-//       avatarUrl:
-//         "https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
-//       fullName: "Keff",
-//     },
-//     createdAt: "03 november 2024",
-//     viewsCount: 150,
-//     commentsCount: 3,
-//     tags: ["react", "fun", "typescript"],
-//   },
-
-// ];
-
 const Home = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector((state) => state.posts);
+  const [activeTab, setActiveTab] = React.useState(0);
 
   const isPostLoading = posts.status === "loading";
   const isTagsLoading = tags.status === "loading";
+
+  const handleTabChange = (_, newValue) => {
+    setActiveTab(newValue);
+  };
+
+  const sortedPosts =
+    activeTab === 0
+      ? [...posts.items].sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        )
+      : [...posts.items].sort((a, b) => b.viewsCount - a.viewsCount);
 
   React.useEffect(() => {
     dispatch(fetchPosts());
@@ -46,7 +37,8 @@ const Home = () => {
     <>
       <Tabs
         style={{ marginBottom: 15 }}
-        value={0}
+        value={activeTab}
+        onChange={handleTabChange}
         aria-label="basic tabs example"
       >
         <Tab label="Нові" />
@@ -58,8 +50,8 @@ const Home = () => {
             [...Array(3)].map((_, index) => (
               <Post key={index} isLoading={true} />
             ))
-          ) : posts.items && posts.items.length > 0 ? (
-            posts.items.map((post) => (
+          ) : sortedPosts && sortedPosts.length > 0 ? (
+            sortedPosts.map((post) => (
               <Post
                 key={post._id}
                 id={post._id}
@@ -72,8 +64,6 @@ const Home = () => {
                 commentsCount={post.commentsCount}
                 tags={post.tags}
                 viewsCount={post.viewsCount}
-                // isLoading={false}
-
                 isEditable={userData?._id === post.user._id}
               />
             ))
