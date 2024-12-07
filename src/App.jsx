@@ -20,7 +20,9 @@ function App() {
   const isAuth = useSelector(selectIsAuth);
 
   React.useEffect(() => {
-    dispatch(current());
+    if (localStorage.getItem("token")) {
+      dispatch(current());
+    }
   }, [dispatch]);
 
   return (
