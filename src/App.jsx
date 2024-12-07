@@ -41,7 +41,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/posts/:id/edit" element={<AddPost />} />
+            <Route
+              path="/posts/:id/edit"
+              element={
+                <ProtectedRoute isAuth={isAuth}>
+                  <AddPost />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
           </Routes>
