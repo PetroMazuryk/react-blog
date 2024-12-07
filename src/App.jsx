@@ -7,6 +7,7 @@ import { Header } from "./components/Header/Header";
 import { current } from "./redux/auth/operations";
 import { selectIsAuth } from "./redux/auth/slice";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import Loader from "./components/Loader/Loader";
 
 const Home = lazy(() => import("./pages/Home"));
 const FullPost = lazy(() => import("./pages/FullPost"));
@@ -27,7 +28,7 @@ function App() {
       <Header />
 
       <Container maxWidth="lg">
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/posts/:id" element={<FullPost />} />
