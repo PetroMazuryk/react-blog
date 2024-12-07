@@ -1,11 +1,11 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Container from "@mui/material/Container";
 import { Header } from "./components/Header/Header";
 import { current } from "./redux/auth/operations";
-import { selectIsAuth } from "./redux/auth/slice";
+
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Loader from "./components/Loader/Loader";
 
@@ -17,7 +17,6 @@ const Registration = lazy(() => import("./pages/Registration/Registration"));
 
 function App() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
 
   React.useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -38,7 +37,7 @@ function App() {
             <Route
               path="/add-post"
               element={
-                <ProtectedRoute isAuth={isAuth}>
+                <ProtectedRoute>
                   <AddPost />
                 </ProtectedRoute>
               }
@@ -46,7 +45,7 @@ function App() {
             <Route
               path="/posts/:id/edit"
               element={
-                <ProtectedRoute isAuth={isAuth}>
+                <ProtectedRoute>
                   <AddPost />
                 </ProtectedRoute>
               }
