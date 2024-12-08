@@ -31,11 +31,6 @@ const FullPost = () => {
   return (
     <>
       <Post
-        // user={{
-        //   avatarUrl:
-        //     "https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png",
-        //   fullName: "Keff",
-        // }}
         id={data._id}
         title={data.title}
         imageUrl={data.imageUrl ? `http://localhost:4444${data.imageUrl}` : ""}

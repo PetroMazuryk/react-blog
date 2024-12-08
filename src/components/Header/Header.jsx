@@ -1,11 +1,10 @@
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/auth/operations";
-import { resetAuthState } from "../../redux/auth/slice";
-import { selectIsAuth } from "../../redux/auth/slice";
-import Container from "@mui/material/Container";
+import { selectIsAuth, resetAuthState } from "../../redux/auth/slice";
+import { Container, Button } from "@mui/material";
 import FeedIcon from "@mui/icons-material/Feed";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+
 import styles from "./Header.module.scss";
 
 export const Header = () => {
