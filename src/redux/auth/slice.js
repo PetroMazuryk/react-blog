@@ -37,6 +37,7 @@ const authSlice = createSlice({
       .addCase(current.pending, handlePending)
       .addCase(current.fulfilled, handleFulfilled)
       .addCase(current.rejected, handleRejected)
+      .addCase(logout.pending, handlePending)
       .addCase(logout.fulfilled, (state) => {
         state.data = null;
         state.status = "loaded";
