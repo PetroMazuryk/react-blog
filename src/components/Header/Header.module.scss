@@ -17,9 +17,10 @@
   background-color: var(--bg-logo);
   color: var(--main-color);
   font-weight: 700;
+  border-radius: 8px;
   text-transform: uppercase;
   letter-spacing: 0.15px;
-  border-radius: 5px;
+
   padding: 0 10px;
   text-decoration: none;
 
@@ -30,9 +31,7 @@
 
 .buttons {
   button {
-    width: 100px;
+    border-radius: 8px;
     margin-left: 18px;
   }
-
-  //
 }
