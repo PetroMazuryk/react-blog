@@ -25,14 +25,16 @@ const Login = () => {
   });
 
   const onSubmit = (values) => {
-    const data = dispatch(logIn(values));
-
-    if (!data.payload) {
-      return alert("Не вдалося авторизуватися");
-    }
-    if ("token" in data.payload) {
-      window.localStorage.setItem("token", data.payload.token);
-    }
+    dispatch(logIn(values))
+      .unwrap()
+      .then((data) => {
+        if (data.token) {
+          window.localStorage.setItem("token", data.token);
+        }
+      })
+      .catch((error) => {
+        alert(`Не вдалося авторизуватися ${error}`);
+      });
   };
 
   if (isAuth) {
