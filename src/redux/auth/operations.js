@@ -1,14 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import apiInstance from "../../services/apiBlog";
-import { setAuthHeader } from "../../services/apiBlog";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await apiInstance.post("/users/register", credentials);
-
-      setAuthHeader(data.token);
+      window.localStorage.setItem("token", data.token);
       return data;
     } catch (error) {
       console.error("Error in register:", error);
@@ -22,7 +20,7 @@ export const logIn = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const { data } = await apiInstance.post("/users/login", credentials);
-      setAuthHeader(data.token);
+      window.localStorage.setItem("token", data.token);
       return data;
     } catch (error) {
       console.error("Error in login:", error);
@@ -34,7 +32,7 @@ export const logIn = createAsyncThunk(
 export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
   try {
     await apiInstance.post("/users/logout");
-    setAuthHeader();
+    window.localStorage.removeItem("token");
     return true;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -43,13 +41,12 @@ export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
 
 export const current = createAsyncThunk(
   "auth/current",
-  async (credentials, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { data } = await apiInstance.get("/users/current", credentials);
-      setAuthHeader(data.token);
+      const { data } = await apiInstance.get("/users/current");
       return data;
     } catch (error) {
-      console.error("Error in login:", error);
+      console.error("Error in current:", error);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

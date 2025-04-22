@@ -1,17 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { logIn } from "../../redux/auth/operations";
 import { selectIsAuth } from "../../redux/auth/slice";
-import { Navigate } from "react-router-dom";
 
 import { Paper, TextField, Typography, Button } from "@mui/material";
-
-import { useForm } from "react-hook-form";
 
 import styles from "./Login.module.scss";
 
 const Login = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -24,8 +24,8 @@ const Login = () => {
     mode: "onChange",
   });
 
-  const onSubmit = async (values) => {
-    const data = await dispatch(logIn(values));
+  const onSubmit = (values) => {
+    const data = dispatch(logIn(values));
 
     if (!data.payload) {
       return alert("Не вдалося авторизуватися");

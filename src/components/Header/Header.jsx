@@ -11,8 +11,8 @@ export const Header = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
 
-  const onClickLogout = async () => {
-    const resultAction = await dispatch(logout());
+  const onClickLogout = () => {
+    const resultAction = dispatch(logout());
 
     if (logout.fulfilled.match(resultAction)) {
       localStorage.removeItem("authToken");

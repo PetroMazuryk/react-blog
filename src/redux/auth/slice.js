@@ -10,14 +10,14 @@ const handlePending = (state) => {
   state.status = "loading";
 };
 
-const handleRejected = (state) => {
-  state.data = null;
-  state.status = "error";
-};
-
 const handleFulfilled = (state, action) => {
   state.data = action.payload;
   state.status = "loaded";
+};
+
+const handleRejected = (state) => {
+  state.data = null;
+  state.status = "error";
 };
 
 const authSlice = createSlice({
@@ -31,12 +31,15 @@ const authSlice = createSlice({
       .addCase(registerUser.pending, handlePending)
       .addCase(registerUser.fulfilled, handleFulfilled)
       .addCase(registerUser.rejected, handleRejected)
+
       .addCase(logIn.pending, handlePending)
       .addCase(logIn.fulfilled, handleFulfilled)
       .addCase(logIn.rejected, handleRejected)
+
       .addCase(current.pending, handlePending)
       .addCase(current.fulfilled, handleFulfilled)
       .addCase(current.rejected, handleRejected)
+
       .addCase(logout.pending, handlePending)
       .addCase(logout.fulfilled, (state) => {
         state.data = null;
