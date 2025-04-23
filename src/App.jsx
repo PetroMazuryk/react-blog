@@ -17,19 +17,28 @@ const Registration = lazy(() => import("./pages/Registration/Registration"));
 
 function App() {
   const dispatch = useDispatch();
+  const [isRefreshing, setIsRefreshing] = React.useState(true);
 
   React.useEffect(() => {
-    if (localStorage.getItem("token")) {
-      dispatch(current());
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setIsRefreshing(false);
+      return;
     }
+
+    dispatch(current()).finally(() => setIsRefreshing(false));
   }, [dispatch]);
+
+  if (isRefreshing) {
+    return <Loader />;
+  }
 
   return (
     <>
-      <Header />
-
-      <Container maxWidth="lg">
-        <Suspense fallback={<Loader />}>
+      <Suspense fallback={<Loader />}>
+        <Header />
+        <Container maxWidth="lg">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/posts/:id" element={<FullPost />} />
@@ -53,8 +62,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
           </Routes>
-        </Suspense>
-      </Container>
+        </Container>
+      </Suspense>
     </>
   );
 }
